@@ -20,7 +20,6 @@ export const metadata = {
         media: "(prefers-color-scheme: dark)",
       },
     ],
-    apple: "/spotifylight.png",
   },
 }
 
