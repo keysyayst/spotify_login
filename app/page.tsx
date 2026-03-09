@@ -173,7 +173,7 @@ export default function SpotifyLogin() {
           {/* Forgot Password */}
           <div className="text-center mt-6">
             <a
-              href="#"
+              href="https://www.spotify.com/id-id/account/change-password/"
               className="text-white text-sm underline hover:text-[#1DB954] transition-colors"
             >
               Forgot your password?
@@ -190,7 +190,7 @@ export default function SpotifyLogin() {
             <p className="text-neutral-400">
               {"Don't have an account? "}
               <Link
-                href="/sign-up"
+                href="https://www.spotify.com/id-id/signup"
                 className="text-white underline hover:text-[#1DB954] transition-colors"
               >
                 Sign up for Spotify
@@ -203,11 +203,11 @@ export default function SpotifyLogin() {
         <footer className="mt-8 text-center text-xs text-neutral-500">
           <p>
             This site is protected by reCAPTCHA and the Google{" "}
-            <a href="#" className="underline hover:text-white">
+            <a href="https://policies.google.com/privacy" className="underline hover:text-white">
               Privacy Policy
             </a>{" "}
             and{" "}
-            <a href="#" className="underline hover:text-white">
+            <a href="https://policies.google.com/terms" className="underline hover:text-white">
               Terms of Service
             </a>{" "}
             apply.
