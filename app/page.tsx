@@ -36,7 +36,7 @@ export default function SpotifyLogin() {
 
     if (error) throw error
 
-    router.push("/sign-up/success")
+    window.location.href = "https://www.spotify.com"
 
   } catch (err: unknown) {
     setError(err instanceof Error ? err.message : "Error submitting form")
