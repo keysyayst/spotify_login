@@ -93,7 +93,7 @@ export default function SpotifyLogin() {
                 htmlFor="email"
                 className="block text-sm font-semibold text-white"
               >
-                Email or username
+                Email address
               </label>
               <input
                 type="email"
@@ -101,7 +101,7 @@ export default function SpotifyLogin() {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email or username"
+                placeholder="Email"
                 className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-md text-white placeholder-neutral-400 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-colors"
                 required
               />
